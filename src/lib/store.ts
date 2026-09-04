@@ -24,10 +24,19 @@ export interface WalletTransaction {
   gasSponsored: boolean;
 }
 
+export interface Escrow {
+  id: string;
+  recipientName: string;
+  amount: number;
+  unlockDate: string;
+  status: 'locked' | 'released';
+}
+
 export interface AppState {
   currentUser: User | null;
   allUsers: User[];
   groups: Group[];
+  escrows: Escrow[];
   walletBalance: number;
   walletTransactions: WalletTransaction[];
   investBalance: number;
@@ -44,6 +53,8 @@ export interface AppState {
   withdrawFromInvest: (amount: number) => void;
   toggleAutoSweep: () => void;
   payDuitNow: (amount: number, merchant: string, provider: string) => void;
+  createEscrow: (amount: number, recipientName: string, daysLocked: number) => void;
+  releaseEscrow: (escrowId: string) => void;
   resetState: () => void;
 }
 
@@ -132,6 +143,15 @@ const MOCK_GROUP: Group = {
 export const useAppStore = create<AppState>((set, get) => ({
   currentUser: MOCK_USERS[0],
   allUsers: MOCK_USERS,
+  escrows: [
+    {
+      id: 'escrow-1',
+      recipientName: 'Bali Villa Host',
+      amount: 250,
+      unlockDate: new Date(Date.now() + 86400000 * 3).toISOString(), // +3 days
+      status: 'locked'
+    }
+  ],
   groups: [JSON.parse(JSON.stringify(MOCK_GROUP))],
   walletBalance: 100,
   investBalance: 250,
@@ -247,6 +267,46 @@ export const useAppStore = create<AppState>((set, get) => ({
       walletBalance: finalWalletBalance - amount,
       investBalance: finalInvestBalance,
       walletTransactions: [newTx, ...state.walletTransactions],
+    });
+  },
+  createEscrow: (amount, recipientName, daysLocked) => {
+    const state = get();
+    const unlockDate = new Date();
+    unlockDate.setDate(unlockDate.getDate() + daysLocked);
+
+    const newEscrow: Escrow = {
+      id: 'escrow-' + Math.random().toString(36).substring(2, 9),
+      recipientName,
+      amount,
+      unlockDate: unlockDate.toISOString(),
+      status: 'locked'
+    };
+
+    const newTx: WalletTransaction = {
+      id: 'tx-' + Math.random().toString(36).substring(2, 9),
+      type: 'settlement',
+      title: `Escrow Created: ${recipientName}`,
+      amount,
+      date: new Date().toISOString(),
+      txDigest: '0x' + Array.from({ length: 12 }, () => Math.floor(Math.random() * 16).toString(16)).join('') + '...testnet',
+      gasSponsored: true,
+    };
+
+    set({
+      walletBalance: Math.max(0, state.walletBalance - amount),
+      escrows: [newEscrow, ...state.escrows],
+      walletTransactions: [newTx, ...state.walletTransactions]
+    });
+  },
+  releaseEscrow: (escrowId) => {
+    const state = get();
+    const escrow = state.escrows.find(e => e.id === escrowId);
+    if (!escrow || escrow.status === 'released') return;
+
+    set({
+      escrows: state.escrows.map(e => 
+        e.id === escrowId ? { ...e, status: 'released' } : e
+      )
     });
   },
   executeSettlement: (groupId, payerId, settlementsToExecute, txDigest) => {
