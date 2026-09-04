@@ -87,7 +87,7 @@ export function GroupDetailModal({
                         {myDebt > 0 ? (
                           <span className="text-rose-500">You owe ${myDebt.toFixed(2)}</span>
                         ) : myCredit > 0 ? (
-                          <span className="text-emerald-500">You're owed ${myCredit.toFixed(2)}</span>
+                          <span className="text-emerald-500">You&apos;re owed ${myCredit.toFixed(2)}</span>
                         ) : (
                           <span className="text-slate-700">All settled up! 🎉</span>
                         )}

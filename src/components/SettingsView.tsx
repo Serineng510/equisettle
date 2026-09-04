@@ -368,9 +368,9 @@ export function SettingsView() {
                     </div>
 
                     <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                      <div className="font-semibold text-slate-800 text-sm mb-1">⛽ Why don't users pay gas fees?</div>
+                      <div className="font-semibold text-slate-800 text-sm mb-1">⛽ Why don&apos;t users pay gas fees?</div>
                       <p className="text-slate-600">
-                        We use Sui's sponsored transactions. The client builds the Programmable Transaction Block (PTB) and sends the transaction bytes to our gas relayer backend, which co-signs and pays the SUI gas fee on behalf of the user.
+                        We use Sui&apos;s sponsored transactions. The client builds the Programmable Transaction Block (PTB) and sends the transaction bytes to our gas relayer backend, which co-signs and pays the SUI gas fee on behalf of the user.
                       </p>
                     </div>
 

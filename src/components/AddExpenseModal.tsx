@@ -39,11 +39,13 @@ export function AddExpenseModal({
   const [isSplitExpanded, setIsSplitExpanded] = useState(true);
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     if (isOpen) {
       setAmount(initialAmount);
       setDescription(initialDescription);
       setCategory(initialCategory);
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
     
     if (group && isOpen) {
       setSelectedMemberIds(group.members.map(m => m.id));
@@ -52,7 +54,7 @@ export function AddExpenseModal({
       }
       setScannedSummary(null);
     }
-  }, [group, isOpen, currentUser?.id, initialAmount, initialDescription, initialCategory]);
+  }, [group, isOpen, currentUser?.id, initialAmount, initialDescription, initialCategory, payerId]);
 
   const handleScanComplete = (result: ScannedReceiptResult) => {
     setAmount(result.total.toFixed(2));

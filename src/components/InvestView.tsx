@@ -83,7 +83,7 @@ export function InvestView() {
                 3.60% p.a.
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">Touch 'n Go style idle-yield on Sui</p>
+            <p className="text-xs text-slate-500 mt-0.5">Touch &apos;n Go style idle-yield on Sui</p>
           </div>
           <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center border border-emerald-100/60 shadow-xs">
             <TrendingUp size={22} />
@@ -126,7 +126,7 @@ export function InvestView() {
               {/* Earnings Breakdown Row */}
               <div className="relative z-10 grid grid-cols-2 gap-2 bg-black/25 p-3.5 rounded-2xl backdrop-blur-md border border-white/10 text-xs">
                 <div>
-                  <div className="text-[11px] text-teal-200">Today's Profit</div>
+                  <div className="text-[11px] text-teal-200">Today&apos;s Profit</div>
                   <div className="font-bold text-sm text-emerald-300">
                     +${dailyEarnings.toFixed(4)}
                   </div>
@@ -171,7 +171,7 @@ export function InvestView() {
                   </div>
                   <div>
                     <div className="font-bold text-xs text-slate-900">Auto-Earn & Auto-Spend</div>
-                    <div className="text-[11px] text-slate-400">Like Touch 'n Go GO+</div>
+                    <div className="text-[11px] text-slate-400">Like Touch &apos;n Go GO+</div>
                   </div>
                 </div>
 

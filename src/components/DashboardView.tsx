@@ -99,7 +99,7 @@ export function DashboardView({ onNavigateToInvest }: { onNavigateToInvest?: () 
           <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
             <div className="flex items-center text-xs font-semibold text-slate-500 mb-1">
               <ArrowDownLeft size={15} className="text-emerald-500 mr-1" />
-              You're Owed
+              You&apos;re Owed
             </div>
             <div className="text-2xl font-extrabold text-slate-900">${totalOwedToMe.toFixed(2)}</div>
           </div>
