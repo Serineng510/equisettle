@@ -43,6 +43,7 @@ export interface AppState {
   depositToInvest: (amount: number) => void;
   withdrawFromInvest: (amount: number) => void;
   toggleAutoSweep: () => void;
+  payDuitNow: (amount: number, merchant: string, provider: string) => void;
   resetState: () => void;
 }
 
@@ -214,6 +215,40 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
   },
   toggleAutoSweep: () => set((state) => ({ autoSweep: !state.autoSweep })),
+  payDuitNow: (amount, merchant, provider) => {
+    const state = get();
+    // Simulate auto-sweep if insufficient funds but GO+ is enabled
+    let finalWalletBalance = state.walletBalance;
+    let finalInvestBalance = state.investBalance;
+
+    if (state.walletBalance < amount && state.autoSweep && state.investBalance > 0) {
+      const shortfall = amount - state.walletBalance;
+      const sweptAmount = Math.min(shortfall, state.investBalance);
+      finalWalletBalance += sweptAmount;
+      finalInvestBalance -= sweptAmount;
+    }
+
+    // Force credit if still not enough (for smooth hackathon demo)
+    if (finalWalletBalance < amount) {
+      finalWalletBalance = amount + 20; 
+    }
+
+    const newTx: WalletTransaction = {
+      id: 'tx-' + Math.random().toString(36).substring(2, 9),
+      type: 'settlement',
+      title: `DuitNow: ${merchant} (${provider})`,
+      amount,
+      date: new Date().toISOString(),
+      txDigest: '0x' + Array.from({ length: 12 }, () => Math.floor(Math.random() * 16).toString(16)).join('') + '...testnet',
+      gasSponsored: true,
+    };
+
+    set({
+      walletBalance: finalWalletBalance - amount,
+      investBalance: finalInvestBalance,
+      walletTransactions: [newTx, ...state.walletTransactions],
+    });
+  },
   executeSettlement: (groupId, payerId, settlementsToExecute, txDigest) => {
     const state = get();
     const group = state.groups.find(g => g.id === groupId);

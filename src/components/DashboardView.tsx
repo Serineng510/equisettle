@@ -21,6 +21,7 @@ export function DashboardView({ onNavigateToInvest }: { onNavigateToInvest?: () 
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');
+  const [prefilledExpense, setPrefilledExpense] = useState<{ amount?: string, description?: string, category?: string } | null>(null);
   
   const currentUser = store.currentUser;
   const groups = store.groups;
@@ -77,10 +78,10 @@ export function DashboardView({ onNavigateToInvest }: { onNavigateToInvest?: () 
             <button
               type="button"
               onClick={() => setIsQRModalOpen(true)}
-              className="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-colors flex items-center justify-center shadow-xs active:scale-95"
-              title="Show Pay QR Code"
+              className="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full transition-colors flex items-center justify-center space-x-1.5 shadow-xs active:scale-95"
             >
-              <QrCode size={18} />
+              <QrCode size={16} />
+              <span className="text-[11px] font-bold">Scan / Pay</span>
             </button>
             <ConnectButton className="!bg-slate-900 hover:!bg-slate-800 !text-white !rounded-full !px-3.5 !py-2 !text-xs !font-medium" />
           </div>
@@ -297,7 +298,17 @@ export function DashboardView({ onNavigateToInvest }: { onNavigateToInvest?: () 
 
       {/* Modals */}
       {groups[0] && (
-        <AddExpenseModal isOpen={isAddExpenseOpen} onClose={() => setIsAddExpenseOpen(false)} groupId={groups[0].id} />
+        <AddExpenseModal 
+          isOpen={isAddExpenseOpen} 
+          onClose={() => {
+            setIsAddExpenseOpen(false);
+            setTimeout(() => setPrefilledExpense(null), 300);
+          }} 
+          groupId={groups[0].id}
+          initialAmount={prefilledExpense?.amount}
+          initialDescription={prefilledExpense?.description}
+          initialCategory={prefilledExpense?.category}
+        />
       )}
 
       {selectedExpense && (
@@ -318,6 +329,10 @@ export function DashboardView({ onNavigateToInvest }: { onNavigateToInvest?: () 
       <PaymentQRModal
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}
+        onRecordExpense={(data) => {
+          setPrefilledExpense(data);
+          setIsAddExpenseOpen(true);
+        }}
       />
     </div>
   );

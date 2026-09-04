@@ -7,10 +7,24 @@ import { Input } from '@/components/ui/input';
 import { useAppStore } from '@/lib/store';
 import { ReceiptScannerModal, ScannedReceiptResult } from './ReceiptScannerModal';
 
-export function AddExpenseModal({ isOpen, onClose, groupId }: { isOpen: boolean, onClose: () => void, groupId: string }) {
-  const [amount, setAmount] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('🍔 Food');
+export function AddExpenseModal({ 
+  isOpen, 
+  onClose, 
+  groupId,
+  initialAmount = '',
+  initialDescription = '',
+  initialCategory = '🍔 Food'
+}: { 
+  isOpen: boolean, 
+  onClose: () => void, 
+  groupId: string,
+  initialAmount?: string,
+  initialDescription?: string,
+  initialCategory?: string
+}) {
+  const [amount, setAmount] = useState(initialAmount);
+  const [description, setDescription] = useState(initialDescription);
+  const [category, setCategory] = useState(initialCategory);
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [receipt, setReceipt] = useState<File | null>(null);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -25,6 +39,12 @@ export function AddExpenseModal({ isOpen, onClose, groupId }: { isOpen: boolean,
   const [isSplitExpanded, setIsSplitExpanded] = useState(true);
 
   useEffect(() => {
+    if (isOpen) {
+      setAmount(initialAmount);
+      setDescription(initialDescription);
+      setCategory(initialCategory);
+    }
+    
     if (group && isOpen) {
       setSelectedMemberIds(group.members.map(m => m.id));
       if (!payerId && currentUser?.id) {
@@ -32,7 +52,7 @@ export function AddExpenseModal({ isOpen, onClose, groupId }: { isOpen: boolean,
       }
       setScannedSummary(null);
     }
-  }, [group, isOpen, currentUser?.id]);
+  }, [group, isOpen, currentUser?.id, initialAmount, initialDescription, initialCategory]);
 
   const handleScanComplete = (result: ScannedReceiptResult) => {
     setAmount(result.total.toFixed(2));
