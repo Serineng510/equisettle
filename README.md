@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EquiSettle 💸
+> Web3 Finance, Web2 UX. Built for Sui Track 1: Payments & Stablecoins.
 
-## Getting Started
+🌍 **Live Demo:** [EquiSettle Vercel Deployment](https://equisettle-d0o0bduav-brian0406-s-projects.vercel.app/)  
+🎥 **Demo Video:** [Insert YouTube/Loom Link Here]  
+📊 **Pitch Deck:** [Insert Pitch Deck Link Here]
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 👁️ The Vision
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Couples, roommates, and travelers frequently share expenses, but settling those debts is a manual nightmare. Traditional banking relies on high FX fees for international groups, and centralized e-wallets have the power to arbitrarily freeze user funds without warning.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**EquiSettle is a mobile-first expense-sharing app that doesn't just *track* debt—it *erases* it instantly on-chain.** By leveraging the Sui blockchain, we offer an experience that feels completely frictionless (like Touch 'n Go or Venmo), while maintaining the security, speed, and self-custody of Web3.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Key Features (Powered by Sui)
 
-## Learn More
+*   **Zero-Friction Onboarding (Sui zkLogin):** We eliminated seed phrases and browser extensions. Users authenticate with their existing Google OAuth credentials to securely generate a self-custodial wallet in 3 seconds.
+*   **Smart Debt Simplification:** Tangled group debts (e.g., 10 different cross-payments) are mathematically compressed into the absolute minimum number of transfers (at most N-1).
+*   **1-Tap Gasless Settlement (Sponsored PTBs):** When users click "Settle Up", we use Sui Programmable Transaction Blocks to batch all transfers. The user settles instantly in USDC while our relayer sponsors the network gas—meaning 100% zero crypto friction for the end-user.
+*   **Trustless Escrow (Sui Move):** For high-trust payments like rental security deposits, we wrote a native `TimeLockedEscrow` Sui Move Smart Contract. Funds are locked immutably on-chain and rely on the decentralized Sui Clock for release, removing the need to trust landlords with cash.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   **Frontend:** Next.js (App Router), React, Tailwind CSS, shadcn/ui.
+*   **Blockchain Integration:** Sui Testnet, `@mysten/sui` (Modern SDK), `@mysten/dapp-kit`.
+*   **Authentication:** Sui zkLogin.
+*   **Smart Contracts:** Sui Move.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 How to Run Locally
 
-## Deploy on Vercel
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/equisettle.git
+   cd equisettle
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **View the app:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 👥 The Team
+
+To build a consumer-ready product rapidly, our team utilized a strict divide-and-conquer strategy:
+
+*   **Liew Lik Yi** – Lead Full-Stack & Web3 Developer 
+    *(Architecture, Sui Move Contracts, zkLogin Integration, UI/UX Implementation)*
+*   **[Insert Teammate's Name]** – Product & Strategy Lead 
+    *(Market Research, Pitch Deck, Demo Video, User Flow testing)*
